@@ -37,8 +37,8 @@ void toggle_hex_sequence(void) {
 
 void mac_input_hex(uint16_t keycode) {
 	register_code(KC_LALT);
-	for (int i = 3; i >= 0; i--) {
-		uint16_t keyIndex = (keycode & (0xF << (i * 4))) >> (i * 4);
+	for (int i = 12; i >= 0; i -= 4) {
+		uint16_t keyIndex = (keycode & (0xF << i)) >> i;
 		tap(hex_map[keyIndex]);
 	}
 	unregister_code(KC_LALT);
@@ -48,19 +48,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	switch (keycode) {
 		#ifdef UNICODE_ENABLE
 		case DISFACE:
-			if (record->event.pressed) {
+			if (record->event.pressed) { // ಠ_ಠ
 				toggle_hex_sequence();
 				mac_input_hex(0x0CA0); // Eye
-				register_code(KC_RSFT); // TODO: is this defined?
+				register_code(KC_RSFT);
 				tap(KC_MINS);
-				unregister_code(KC_RSFT); // TODO: Is this defined?
+				unregister_code(KC_RSFT);
 				mac_input_hex(0x0CA0); // Eye
 				toggle_hex_sequence();
 			}
 			return false;
 			break;
 		case TFLIP:
-			if (record->event.pressed) {
+			if (record->event.pressed) { // (╯°□°)╯ ͡ ┻━┻
 				toggle_hex_sequence();
 				register_code(KC_RSFT);
 				tap(KC_9);
@@ -83,7 +83,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			}
 			return false;
 		case TPUT:
-			if (record->event.pressed) {
+			if (record->event.pressed) { // ┬──┬ ノ( ゜-゜ノ)
 				toggle_hex_sequence();
 				mac_input_hex(0x252C); // Table
 				mac_input_hex(0x2500); // Table
@@ -107,7 +107,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 			return false;
 			break;
 		case SHRUG:
-			if (record->event.pressed) {
+			if (record->event.pressed) { // ¯\_(ツ)_/¯
 				toggle_hex_sequence();
 				mac_input_hex(0x00AF); // Hand
 				tap(KC_BSLS);
